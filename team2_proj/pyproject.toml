@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.10"
 quart = "^0.19.4"
 requests = "^2.31.0"
+jsonify = "^0.5"
 
 
 [build-system]
