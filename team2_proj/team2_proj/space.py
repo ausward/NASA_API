@@ -1,6 +1,6 @@
 from quart import Quart, jsonify, request
 import requests
-import POTD
+from .POTD import *
 
 app = Quart(__name__)
 
@@ -22,11 +22,10 @@ async def get_wikipedia_data(keyword):
 
 @app.route('/POTD')
 async def get_potd():
-    return jsonify(POTD.get_POTD_with_desc())
+    return jsonify(get_POTD_with_desc())
     
 
-
-if __name__ == '__main__':
+def main():
     app.run()
     @app.route('/spacefact/<keyword>')
     async def get_space_fact(keyword):
@@ -45,3 +44,8 @@ if __name__ == '__main__':
         if 'title' not in data:
             return jsonify({'error': 'No Wikipedia page found'})
         return jsonify(data)
+
+
+
+if __name__ == '__main__':
+    main()
