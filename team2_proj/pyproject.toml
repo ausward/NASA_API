@@ -5,6 +5,9 @@ description = ""
 authors = ["ZacSchepis <schezack@isu.edu>"]
 readme = "README.md"
 
+[tool.poetry.scripts]
+space = "team2_proj.space:main"
+
 [tool.poetry.dependencies]
 python = "^3.10"
 quart = "^0.19.4"
