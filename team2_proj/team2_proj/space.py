@@ -1,6 +1,6 @@
 from quart import Quart, jsonify, request
 import requests
-from .POTD import *
+from POTD import *
 
 app = Quart(__name__)
 
@@ -23,6 +23,11 @@ async def get_wikipedia_data(keyword):
 @app.route('/POTD')
 async def get_potd():
     return jsonify(get_POTD_with_desc())
+
+@app.route("/pastPOTD/<string:date>")
+async def get_past_potd(date:str):
+    #print(f"{date} line 29")
+    return jsonify(get_past_POTD_with_desc(date))
     
 
 def main():
