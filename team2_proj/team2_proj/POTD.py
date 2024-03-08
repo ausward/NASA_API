@@ -2,7 +2,8 @@
 import json
 import requests
 import os
-import jsonify
+# import jsonify
+import re
 
 
 # for the NASA API to work you need to get an API key from the NASA website and set it as an environment variable
@@ -49,33 +50,40 @@ class WikiData:
         return f"Title: {self.title}, Description: {self.description}, URL: {self.url}, Thumbnail: {self.thumbnail}"
 
 
-def get_potd() -> POTD:
+def validate_date(date:str) -> bool:
+    # date format should be yyyy-mm-dd
+
+    date_regex = re.compile(r"\d{4}-\d{2}-\d{2}")
+    return date_regex.match(date) != None
+
+def get_potd(date:str = None) -> POTD:
     baseURL = "https://api.nasa.gov/planetary/apod"
     apiKey = os.getenv("NASA_API_KEY")
     params = {
         "api_key": apiKey,
-        
     }
+    if date != None and validate_date(date):
+        params["date"] = date
     response = requests.get(baseURL, params=params)
     json_data = response.json()
-    try:
+    try:                        #
         POTD_obj = POTD(json_data["url"], json_data["title"], json_data['explanation'] )
         data = json.dumps(POTD_obj.__dict__)
     except:
-        print(json_data)
+        print(json_data)                                                        ## add error response for missing key of json parsing (challenger?)
     
     return POTD_obj
 
 
 
-def get_wiki_data(search_query:str = "blue_shift")-> list[WikiData]:
+def get_wiki_data(search_Query:str = "blue_shift")-> list[WikiData]:
     language_code = "en"
     
     number_of_results = 5
     base_url = 'https://api.wikimedia.org/core/v1/wikipedia/'
     endpoint = '/search/page'
     url = base_url + language_code + endpoint
-    parameters = {'q': search_query, 'limit': number_of_results}
+    parameters = {'q': search_Query, 'limit': number_of_results}
     response = requests.get(url,  params=parameters)
     list_of_wiki_data = []
     for result in response.json()["pages"]:
@@ -103,23 +111,40 @@ def get_POTD_with_desc():
     WIKI_DATA:list[WikiData] = get_wiki_data(NASA_data.get_title())
     return_data =  {
         "POTD": NASA_data.__dict__,
-        "info": "Get More context from Wikipedia.",
+        "Query": "Get More context from Wikipedia.",
         "WIKI_DATA": [data.__dict__ for data in WIKI_DATA]
     }
     return return_data
     # return json.dumps(return_data)
 
 
+
 def get_POTD_without_desc():
+    '''Not Currently used, we were unsure about if we should return the description from NASA or not.'''
     NASA_data:POTD = get_potd()
     WIKI_DATA:list[WikiData] = get_wiki_data(NASA_data.get_title())
     return_data =  {
         "POTD": NASA_data.no_desc(),
-        "info": "Get More context from Wikipedia.",
+        "Query": "Get More context from Wikipedia.",
         "WIKI_DATA": [data.__dict__ for data in WIKI_DATA]
     }
     return return_data
     
+def get_past_POTD_with_desc(date:str):
+    if validate_date(date):
+        NASA_data:POTD = get_potd(date)
+        WIKI_DATA:list[WikiData] = get_wiki_data(NASA_data.get_title())
+        return_data =  {
+            "POTD": NASA_data.__dict__,
+            "Query": "Get More context from Wikipedia.",
+            "WIKI_DATA": [data.__dict__ for data in WIKI_DATA]
+        }
+        return return_data
+    else:
+        return get_POTD_with_desc()   # add error response for invalid date (challenger?)
+    
+
 
 if __name__ == "__main__":
+    print(get_past_POTD_with_desc("2023-11-29"))
     print(get_POTD_with_desc())
