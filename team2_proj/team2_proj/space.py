@@ -4,16 +4,16 @@ from POTD import *
 
 app = Quart(__name__)
 
-@app.route('/nasa')
-async def get_nasa_data():
-    nasa_api_url = 'https://api.nasa.gov/planetary/apod?api_key=YOUR_API_KEY'
-    response = requests.get(nasa_api_url)
-    data = response.json()
-    return jsonify(data)
+# @app.route('/nasa')
+# async def get_nasa_data():
+#     nasa_api_url = 'https://api.nasa.gov/planetary/apod?api_key=YOUR_API_KEY'
+#     response = requests.get(nasa_api_url)
+#     data = response.json()
+#     return jsonify(data)
 
 @app.route('/wikipedia/<keyword>')
 async def get_wikipedia_data(keyword):
-    wikipedia_api_url = f'https://en.wikipedia.org/api/rest_v1/page/summary/{keyword}'
+    wikipedia_api_url = f'https://en.wikipedia.org/api/rest_v1/page/summary/NASA'
     response = requests.get(wikipedia_api_url)
     data = response.json()
     if 'title' not in data:
