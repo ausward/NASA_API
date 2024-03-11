@@ -11,10 +11,11 @@ import re
 # in poetry shell run -> export NASA_API_KEY="your_key_"
 
 
-# AW 2/29/24
 # POTD -> photo of the day
 
 class POTD:
+    '''Photo of the day object. This object is used to store the data from the NASA API. It has a url, title, and description.\
+    The description is optional. If the description is not provided, the object will return a dictionary without the description.'''
     url:str
     title:str
     desc:str
@@ -35,6 +36,7 @@ class POTD:
 
     
 class WikiData:
+    '''Wikipedia data object. This object is used to store the data from the Wikipedia API. It has a title, description, url, and thumbnail.'''
     title:str
     description:str
     url:str
@@ -49,10 +51,24 @@ class WikiData:
     def __str__(self) -> str:
         return f"Title: {self.title}, Description: {self.description}, URL: {self.url}, Thumbnail: {self.thumbnail}"
 
+## construct the defualt error objects
+    
+error_potd = POTD("https://commons.wikimedia.org/wiki/File:Challenger_explosion.jpg#/media/File:Challenger_explosion.jpg", "Challenger Disaster", "An error occurred while fetching the data. Much like the Challenger Disaster, this is a disaster, but much less fatal.")
+error_w1 = WikiData("Challenger Disaster", "On January 28, 1986, the Space Shuttle Challenger broke apart 73 seconds into its flight, killing all seven crew members aboard. The spacecraft disintegrated 46,000 feet (14 km) above the Atlantic Ocean, off the coast of Cape Canaveral, Florida, at 11:39 a.m. EST (16:39 UTC). It was the first fatal accident involving an American spacecraft while in flight.", None)
+error_w2 = WikiData("HTTP status codes","The server failed to fulfill a request. Response status codes beginning with the digit '5' indicate cases in which the server is aware that it has encountered an error or is otherwise incapable of performing the request.","https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_server_errors",None)
+error_wiki = [error_w1, error_w2]
+
+error_json = {
+    "POTD": error_potd.__dict__,
+    "Query": "ERROR 500",
+    "WIKI_DATA": [data.__dict__ for data in error_wiki]
+}
+
+## end defualt error objects
 
 def validate_date(date:str) -> bool:
+    '''This function takes a date string and returns True if the date is in the format yyyy-mm-dd, otherwise it returns False.'''
     # date format should be yyyy-mm-dd
-
     date_regex = re.compile(r"\d{4}-\d{2}-\d{2}")
     return date_regex.match(date) != None
 
@@ -77,6 +93,9 @@ def get_potd(date:str = None) -> POTD:
 
 
 def get_wiki_data(search_Query:str = "blue_shift")-> list[WikiData]:
+    '''This function takes a search query and returns a list of WikiData objects.\
+    The search query is used to search Wikipedia for relevant articles. The function returns a list of WikiData objects.\
+    If the search query is not provided, the function will return a list of WikiData objects for the search query "blue_shift".'''
     language_code = "en"
     
     number_of_results = 5
@@ -107,14 +126,18 @@ def get_wiki_data(search_Query:str = "blue_shift")-> list[WikiData]:
 
 
 def get_POTD_with_desc():
-    NASA_data:POTD = get_potd()
-    WIKI_DATA:list[WikiData] = get_wiki_data(NASA_data.get_title())
-    return_data =  {
-        "POTD": NASA_data.__dict__,
-        "Query": "Get More context from Wikipedia.",
-        "WIKI_DATA": [data.__dict__ for data in WIKI_DATA]
-    }
-    return return_data
+    '''This function returns a dictionary with the POTD, a query, and the Wikipedia data.'''
+    try:
+        NASA_data:POTD = get_potd()
+        WIKI_DATA:list[WikiData] = get_wiki_data(NASA_data.get_title())
+        return_data =  {
+            "POTD": NASA_data.__dict__,
+            "Query": "Get More context from Wikipedia.",
+            "WIKI_DATA": [data.__dict__ for data in WIKI_DATA]
+        }
+        return return_data
+    except:
+        return error_json
     # return json.dumps(return_data)
 
 
@@ -131,6 +154,7 @@ def get_POTD_without_desc():
     return return_data
     
 def get_past_POTD_with_desc(date:str):
+    '''This function takes a date string and returns a dictionary with the POTD, a query, and the Wikipedia data.'''
     if validate_date(date):
         NASA_data:POTD = get_potd(date)
         WIKI_DATA:list[WikiData] = get_wiki_data(NASA_data.get_title())
@@ -141,7 +165,7 @@ def get_past_POTD_with_desc(date:str):
         }
         return return_data
     else:
-        return get_POTD_with_desc()   # add error response for invalid date (challenger?)
+        return error_json   # add error response for invalid date (challenger?)
     
 
 

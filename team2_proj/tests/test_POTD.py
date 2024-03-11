@@ -9,8 +9,11 @@ def test_validate_date(date, expected):
     assert validate_date(date) == expected
 
 
-@pytest.mark.parametrize("date, expected", [("2023-11-29", "A Landspout Tornado over Kansas")] )
-def test_get_past_potd(date, expected):
+def test_get_past_potd():
+    date = "2023-11-29"
+    expected = "A Landspout Tornado over Kansas"
     got = get_potd(date)
     print(got.get_title)
-    assert  got.title == expected
+    assert got.title == expected
+
+
