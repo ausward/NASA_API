@@ -1,6 +1,6 @@
 from quart import Quart, jsonify, request
 import requests
-from POTD import *
+from .POTD import *
 
 app = Quart(__name__)
 
