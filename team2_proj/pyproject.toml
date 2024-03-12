@@ -2,7 +2,7 @@
 name = "team2-proj"
 version = "0.1.0"
 description = ""
-authors = ["ZacSchepis <schezack@isu.edu>"]
+authors = ["ZacSchepis <schezack@isu.edu>", "AustinWard <austinward@isu.edu"]
 readme = "README.md"
 
 [tool.poetry.scripts]
