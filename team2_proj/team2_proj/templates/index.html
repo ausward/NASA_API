@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <header Access-Control-Allow-Origin="*"></header>
+    <title>NASA Picture of the Day</title>
+    <style>
+      html {
+        display: table;
+      }
+      body {
+        display: table-cell;
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f2f2f2;
+        vertical-align: middle;
+        text-align: center; /* Center the content */
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: #333;
+      }
+
+      #potd-container {
+        width: 50%;
+        text-align: center;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 0 auto; /* Center the container horizontally */
+      }
+
+      #potd-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      #potd-image {
+        height: 400px; /* Set the desired height for the images */
+        object-fit: cover;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      #potd-desc {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #666;
+      }
+
+      #wiki-container {
+        margin-top: 20px;
+        width: 40%;
+        margin: 0 auto; /* Center the container horizontally */
+      }
+
+      .wiki-entry {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        display: inline-block; /* Display the entries inline */
+
+        /* Added to center the content */
+      }
+
+      .wiki-entry h3 {
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+
+      .wiki-entry p {
+        font-size: 14px;
+        line-height: 1.3;
+        color: #666;
+        margin-bottom: 5px;
+      }
+
+      .wiki-entry img {
+        max-width: 100%;
+        height: 200px; /* Set the desired height for the images */
+        object-fit: cover; /* Ensure the images maintain aspect ratio */
+        margin-bottom: 5px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .wiki-entry a {
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+
+      .wiki-entry a:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="potd-container">
+      <h1 id="potd-title"></h1>
+      <img id="potd-image" src="" />
+      <p id="potd-desc"></p>
+    </div>
+
+    <div id="wiki-container">
+      <h2 style="text-align: center">Wikipedia Data</h2>
+      <ul id="wiki-list"></ul>
+    </div>
+    <script>
+      async function fetchData() {
+        try {
+          const response = await fetch("http://localhost:5000/POTD");
+          const data = await response.json();
+
+          // Update POTD section
+          document.getElementById("potd-title").innerText = data.POTD.title;
+          document.getElementById("potd-image").src = data.POTD.url;
+          document.getElementById("potd-desc").innerText = data.POTD.desc;
+
+          // Update Wikipedia section
+          const wikiList = document.getElementById("wiki-list");
+          data.WIKI_DATA.forEach((entry) => {
+            console.log(entry);
+            const divItem = document.createElement("div"); // Changed from li to div
+            divItem.className = "wiki-entry";
+            divItem.innerHTML = `
+                    <h3>${entry.title}</h3>
+                    <p>${entry.description || "No description available."}</p>
+                    <img src="${entry.thumbnail}" alt="${
+              entry.title
+            } thumbnail">
+                    <br>
+                    <a href="${entry.url}" target="_blank">Read more</a>
+                `;
+            wikiList.appendChild(divItem);
+          });
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+
+      // Call the fetchData function to populate the page
+      fetchData();
+    </script>
+  </body>
+</html>

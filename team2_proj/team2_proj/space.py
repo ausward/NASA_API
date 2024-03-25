@@ -1,4 +1,4 @@
-from quart import Quart, jsonify, request
+from quart import Quart, jsonify, request, render_template
 from quart_cors import cors, route_cors
 import requests
 from .POTD import *
@@ -31,6 +31,11 @@ async def get_potd():
 async def get_past_potd(date:str):
     #print(f"{date} line 29")
     return jsonify(get_past_POTD_with_desc(date))
+
+@app.route("/")
+async def index():
+        
+        return await render_template("index.html")
     
 
 def main():
