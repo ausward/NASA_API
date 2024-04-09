@@ -26,7 +26,7 @@ async def get_potd():
     
 
 def main():
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
     @app.route('/spacefact/<keyword>')
     async def get_space_fact(keyword):
         nasa_api_url = f'https://api.nasa.gov/planetary/apod?api_key=YOUR_API_KEY&search={keyword}'

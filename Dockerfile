@@ -12,7 +12,7 @@ RUN apt-get update \
         bash
 
 RUN curl -sSL $POETRY_DOWNLOAD | python3 - --version $POETRY_VERSION
-
+ENV POETRY_VIRTUALENVS_CREATE=false
 ENV POETRY=/root/.local/bin/poetry
 ENV NASA_API_KEY=$NASA_API_KEY
 WORKDIR /app
