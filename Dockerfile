@@ -17,8 +17,9 @@ ENV POETRY=/root/.local/bin/poetry
 ENV NASA_API_KEY=$NASA_API_KEY
 WORKDIR /app
 RUN git clone $PROJECT_URL
-RUN git checkout feature18-dockerfile
 WORKDIR /app/Team_2Project/team2_proj
+RUN git checkout feature18-dockerfile
+
 RUN poetry install
 EXPOSE 5000
 
