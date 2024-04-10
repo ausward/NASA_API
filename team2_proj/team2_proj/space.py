@@ -1,7 +1,7 @@
 from quart import Quart, jsonify, request, render_template
 from quart_cors import cors, route_cors
 import requests
-from .POTD import *
+from POTD import *
 
 app = Quart(__name__)
 
@@ -45,7 +45,7 @@ async def index():
     
 
 def main():
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
     @app.route('/spacefact/<keyword>')
     async def get_space_fact(keyword):
         nasa_api_url = f'https://api.nasa.gov/planetary/apod?api_key=YOUR_API_KEY&search={keyword}'
