@@ -22,5 +22,5 @@ RUN git checkout feature19-fixed-dockerfile
 
 RUN poetry install
 EXPOSE 5000
-CMD ["python3", "team2_proj/space.py"]
-ENTRYPOINT ["bash"]
+ENTRYPOINT ["python3"]
+CMD ["team2_proj/space.py"]
