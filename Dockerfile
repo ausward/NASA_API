@@ -18,7 +18,7 @@ ENV NASA_API_KEY=$NASA_API_KEY
 WORKDIR /app
 RUN git clone $PROJECT_URL
 WORKDIR /app/Team_2Project/team2_proj
-RUN git checkout feature18-dockerfile
+RUN git checkout feature19-fixed-dockerfile
 
 RUN poetry install
 EXPOSE 5000
