@@ -1,7 +1,7 @@
 from quart import Quart, jsonify, request, render_template
 from quart_cors import cors, route_cors
 import requests
-from .POTD import *
+from POTD import *
 
 app = Quart(__name__)
 
