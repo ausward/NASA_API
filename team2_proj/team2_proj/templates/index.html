@@ -123,10 +123,22 @@
           const response = await fetch("http://localhost:5000/POTD");
           const data = await response.json();
 
-          // Update POTD section
-          document.getElementById("potd-title").innerText = data.POTD.title;
-          document.getElementById("potd-image").src = data.POTD.url;
-          document.getElementById("potd-desc").innerText = data.POTD.desc;
+            // Update POTD section
+            document.getElementById("potd-title").innerText = data.POTD.title;
+            const potdImage = document.getElementById("potd-image");
+            const potdDesc = document.getElementById("potd-desc");
+            if (data.POTD.url.includes("youtube.com")) {
+            const iframe = document.createElement("iframe");
+            iframe.src = data.POTD.url;
+            iframe.width = "100%";
+            iframe.height = "315";
+            iframe.allowFullscreen = true;
+            potdImage.replaceWith(iframe);
+            potdDesc.innerText = data.POTD.desc;
+            } else {
+            potdImage.src = data.POTD.url;
+            potdDesc.innerText = data.POTD.desc;
+            }
 
           // Update Wikipedia section
           const wikiList = document.getElementById("wiki-list");
