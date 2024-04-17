@@ -16,6 +16,6 @@ jobs:
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
       - name: Move into team2_proj dir & install dependencies & run test
-          env: 
+        env: 
             NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
         run: cd ./team2_proj && poetry install && poetry run pytest
