@@ -15,15 +15,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.10.x
-      - name: Pulling NASA_API_KEY ?? (Maybe)
-        with:
-            NASA_API_KEY: ${{ secrets.NASA_API_KEY }} 
       - name: Install Poetry
-        env: 
-            NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
       - name: Move into team2_proj dir & install dependencies & run test
         env: 
-            NASA_API_KEY: ${{ secrets.nasaapikey }}
+            NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
         run: pwd && echo ${{ secrets.NASA_API_KEY }} && cd ./team2_proj && poetry install && poetry run pytest
