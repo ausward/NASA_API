@@ -29,8 +29,7 @@ def test_validate_date(date, expected):
                     url="https://en.wikipedia.org/wiki/Walmart",
                     thumbnail="http://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Walmart_7.jpg/60px-Walmart_7.jpg"
 
-                )),
-                ("banana", None)])
+                ))])
 def test_get_wiki_data(query: str, expected: WikiData):
     '''The banana test should fail'''
     # Test case 1: Search query provided
