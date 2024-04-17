@@ -1,7 +1,7 @@
 import pytest
-from team2_proj.POTD import get_potd, validate_date
+from team2_proj.team2_proj.POTD import get_potd, validate_date
 from unittest.mock import patch
-from team2_proj.space import app
+from team2_proj.team2_proj.space import app
 
 @pytest.fixture
 def client():

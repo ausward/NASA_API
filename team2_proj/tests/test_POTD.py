@@ -1,5 +1,5 @@
 import pytest
-from team2_proj.POTD import *
+from team2_proj.team2_proj.POTD import validate_date, WikiData, get_wiki_data, get_potd
 import json
 
 
