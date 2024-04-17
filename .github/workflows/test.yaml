@@ -12,10 +12,10 @@ jobs:
           python-version: 3.x
       - name: Install Poetry
         env: 
-            NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+            NASA_API_KEY: ${{ secrets.nasaapikey }}
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
       - name: Move into team2_proj dir & install dependencies & run test
         env: 
-            NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
-        run: cd ./team2_proj && poetry install && poetry run pytest
+            NASA_API_KEY: ${{ secrets.nasaapikey }}
+        run: echo $NASA_API_KEY && cd ./team2_proj && poetry install && poetry run pytest
