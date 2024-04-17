@@ -6,11 +6,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set up Node.js 20
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -21,4 +16,4 @@ jobs:
       - name: Move into team2_proj dir & install dependencies & run test
         env: 
             NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
-        run: pwd && echo ${{ secrets.NASA_API_KEY }} && cd ./team2_proj && poetry install && poetry run pytest
+        run: echo ${{ secrets.NASA_API_KEY }} && cd ./team2_proj && poetry install && poetry run pytest
