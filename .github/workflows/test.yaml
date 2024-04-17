@@ -4,9 +4,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - shell: bash
-      env: 
-        NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Set up Python
@@ -14,7 +11,11 @@ jobs:
         with:
           python-version: 3.x
       - name: Install Poetry
+        env: 
+            NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
       - name: Move into team2_proj dir & install dependencies & run test
+          env: 
+            NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
         run: cd ./team2_proj && poetry install && poetry run pytest
