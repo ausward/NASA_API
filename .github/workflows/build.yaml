@@ -2,8 +2,8 @@ name: build and push docker image
 on:
   push:
   branches: 
-    - 'main'
-    - 'stable-feature-dockerfile'
+    - main
+    - stable-feature-dockerfile
 
 
 jobs:
