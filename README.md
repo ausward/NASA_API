@@ -20,4 +20,4 @@ Once you've got the Docker container up, running and connected to, you should be
 ```
 poetry run space
 ```
-and that should in theory launch our app.
+That should in theory launch our app.
