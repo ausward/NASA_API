@@ -1,0 +1,23 @@
+name: build and push docker image
+on:
+  push:
+    branches: [main]
+
+jobs:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Build
+      id: build
+      uses: cloudposse/github-action-docker-build-push@main
+      with:
+        registry: registry.hub.docker.com
+        repository: auswar/team2_project
+        login: "${{ secrets.DOCKER_HUB_USER }}"
+        password: "${{ secrets.DOCKER_HUB_KEY }}"
+        platforms: linux/X86
+
+  outputs:
+    image: ${{ steps.build.outputs.image }}
+    tag: ${{ steps.build.outputs.tag }}
