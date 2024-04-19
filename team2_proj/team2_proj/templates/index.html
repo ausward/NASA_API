@@ -244,7 +244,7 @@
           document.getElementById("month").value +
           "-" +
           document.getElementById("day").value;
-        const url = "http://localhost:5000/";
+        const url = "http://54.188.29.50/";
         console.log(formattedDate);
 
         response = await fetch(url + "pastPOTD/" + formattedDate);
