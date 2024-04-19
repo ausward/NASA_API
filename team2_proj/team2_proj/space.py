@@ -1,7 +1,16 @@
 from quart import Quart, jsonify, request, render_template
 from quart_cors import cors, route_cors
 import requests
-from team2_proj.team2_proj.POTD import *
+try:
+    from team2_proj.team2_proj.POTD import *
+except:
+    print("Error importing POTD trying again")
+
+try:
+    from .POTD import *
+except:
+    print("Error importing POTD")
+
 
 
 app = Quart(__name__)
