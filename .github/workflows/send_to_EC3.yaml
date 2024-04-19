@@ -8,10 +8,9 @@ on:
 jobs:
 
   build:
-    runs-on:
-      - ubuntu-latest
+    runs-on: ubuntu-latest
 
-      steps:
+    steps:
         - name: SSH into AWS EC2 instance
           uses: appleboy/ssh-action@master
           with:
