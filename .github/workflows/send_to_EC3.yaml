@@ -1,0 +1,31 @@
+name: Deploy to EC2
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - stable-feature-dockerfile
+      - enhancement/26-add-github-action-to-deploy-and-run-the-docker-image-on-the-ec2-server
+jobs:
+
+  build:
+    environment: NASA_API_KEY
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: SSH into AWS EC2 instance
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST_IP }}
+            username: ${{ secrets.AWS_LOGIN_NAME }}
+            password: ${{ secrets.AWS_LOGIN_PASSWORD }}
+            script: |
+              
+              # Pull Docker image from registry
+              echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker pull auswar/team2_project:latest
+              echo "hello world!"
+              
+              # Run Docker container
+                echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker run -d -p 80:5000 -e NASA_API_KEY=${{ secrets.NASA_API_KEY }} auswar/team2_project:latest
+              echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker ps
