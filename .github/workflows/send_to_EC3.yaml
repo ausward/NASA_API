@@ -1,0 +1,33 @@
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    -
+      name: Deploy to EC2
+
+      on:
+        push:
+          branches:
+            - main
+            - stable-feature-dockerfile
+
+        deploy:
+          needs: build
+          environment: development-scratch
+          runs-on: ubuntu-latest
+          steps:
+            - name: SSH into AWS EC2 instance
+              uses: appleboy/ssh-action@master
+              with:
+                host: ${{ env.HOST_IP }}
+                username: ${{ env.AWS_LOGIN_NAME }}
+                password: ${{ env.AWS_LOGIN_PASSWORD }}
+                script: |
+                  
+                  # Pull Docker image from registry
+                  echo "${{ env.AWS_LOGIN_PASSWORD }}" | sudo -S docker pull auswar/team2_project:latest
+                  echo "hello world!"
+                  
+                  # Run Docker container
+                    echo "${{ env.AWS_LOGIN_PASSWORD }}" | sudo -S docker run -d -p 80:5000 -e NASA_API_KEY=${{ secrets.NASA_API_KEY }} auswar/team2_project:latest
+                  echo "${{ env.AWS_LOGIN_PASSWORD }}" | sudo -S docker ps
