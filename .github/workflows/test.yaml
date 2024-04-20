@@ -1,0 +1,19 @@
+name: Run Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10.x
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+      - name: Move into team2_proj dir & install dependencies & run test
+        env: 
+            NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+        run: echo ${{ secrets.NASA_API_KEY }} && cd ./team2_proj && poetry install && poetry run pytest
