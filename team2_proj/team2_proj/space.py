@@ -1,9 +1,8 @@
 from quart import Quart, jsonify, request, render_template
 from quart_cors import cors, route_cors
 import requests
-from .POTD import *
+from team2_proj.team2_proj.POTD import *
 
-## there is something going on with the ``` from .POTD import * ``` line that I (austin) can't figure out.
 
 app = Quart(__name__)
 
