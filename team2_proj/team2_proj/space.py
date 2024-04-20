@@ -1,7 +1,17 @@
 from quart import Quart, jsonify, request, render_template
 from quart_cors import cors, route_cors
 import requests
-from team2_proj.team2_proj.POTD import *
+try:
+    from team2_proj.team2_proj.POTD import *
+except:
+    print("Error importing POTD trying again")
+
+try:
+    from .POTD import *
+except:
+    print("Error importing POTD")
+
+
 
 app = Quart(__name__)
 
@@ -28,15 +38,17 @@ async def get_potd():
     return jsonify(get_POTD_with_desc())
 
 @app.route("/pastPOTD/<string:date>")
+@route_cors(allow_origin="*")
 async def get_past_potd(date:str):
     if not validate_date(date):
-        return get_potd()
+        return await get_potd()
     #print(f"{date} line 29")
     return jsonify(get_past_POTD_with_desc(date))
 
-@app.route('/PastPOTD')
+@app.route('/pastPOTD')
+@route_cors(allow_origin="*")
 async def get_potd_due_to_missing_date():
-    return get_potd()
+    return await get_potd()
 
 @app.route("/")
 async def index():
