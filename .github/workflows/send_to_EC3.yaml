@@ -27,8 +27,8 @@ jobs:
               echo "hello world!"
 
               # kill old container
-                echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker kill server
-                echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker ps
+                echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker stop $(docker ps -a -q)
+                echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker rm $(docker ps -a -q)
               
               # Run Docker container
                 echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker run -d -p 80:5000 -e NASA_API_KEY=${{ secrets.NASA_API_KEY }} --name server auswar/team2_project:latest
