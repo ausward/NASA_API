@@ -22,12 +22,22 @@ jobs:
             password: ${{ secrets.AWS_LOGIN_PASSWORD }}
             script: |
               
-              # pull the script from github
+              # Pull Docker image from registry
+              
+              echo "hello world!"
 
-              git clone https://github.com/CS3321-Spring-2024/Team_2Project
-              cd Team2_project 
-              ./deploy.sh
+              # kill old container
+                docker stop $(docker ps -a -q)
+                # Remove all containers
+                docker rm $(docker ps -a -q)
 
+                # Remove all images
+                docker rmi $(docker images -q)
+                docker stop server
+                docker rm server
+
+              docker pull auswar/team2_project:latest
+              
               # Run Docker container
-                echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker run -d -p 80:5000 -e NASA_API_KEY=${{ secrets.NASA_API_KEY }} --name server auswar/team2_project:latest
-              echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker ps
+                docker run -d -p 80:5000 -e NASA_API_KEY=${{ secrets.NASA_API_KEY }} --name server auswar/team2_project:latest
+              docker ps
