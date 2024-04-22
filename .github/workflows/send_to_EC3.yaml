@@ -25,7 +25,11 @@ jobs:
               # Pull Docker image from registry
               echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker pull auswar/team2_project:latest
               echo "hello world!"
+
+              # kill old container
+                echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker kill server
+                echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker ps
               
               # Run Docker container
-                echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker run -d -p 80:5000 -e NASA_API_KEY=${{ secrets.NASA_API_KEY }} auswar/team2_project:latest
+                echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker run -d -p 80:5000 -e NASA_API_KEY=${{ secrets.NASA_API_KEY }} --name server auswar/team2_project:latest
               echo "${{ secrets.AWS_LOGIN_PASSWORD }}" | sudo -S docker ps
