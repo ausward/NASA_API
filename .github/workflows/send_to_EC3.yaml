@@ -2,11 +2,7 @@ name: Deploy to EC2
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-      - stable-feature-dockerfile
-      - enhancement/26-add-github-action-to-deploy-and-run-the-docker-image-on-the-ec2-server
+
 jobs:
 
   build:
