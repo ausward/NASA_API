@@ -1,5 +1,5 @@
 import pytest
-from team2_proj.team2_proj.POTD import validate_date, WikiData, get_wiki_data, get_potd
+from team2_proj.team2_proj.POTD import *
 import json
 
 
@@ -55,4 +55,46 @@ def test_get_potd(date, expected):
     assert got.url == expected
 
 
+
+@pytest.mark.parametrize("date, expected_result", [
+    ("2024-04-22", True),
+    ("2024-04-32", True),  
+    ("2024-04-0", False),   
+    ("2024-13-22", True),  
+    ("2024/13/42", False),  
+    ("2024/04/22", False),  
+    ("2024.04.22", False),  
+])
+def test_validate_date(date, expected_result):
+    assert validate_date(date) == expected_result
+
+
+
+def test_get_potd_valid_date():
+    # Assuming the function returns a POTD object
+    potd = get_potd("2024-04-22")
+    assert potd is not None
+    assert isinstance(potd, POTD)
+
+def test_get_wiki_data():
+    # Assuming the function returns a list of WikiData objects
+    wiki_data_list = get_wiki_data("blue_shift")
+    assert isinstance(wiki_data_list, list)
+    assert all(isinstance(data, WikiData) for data in wiki_data_list)
+
+def test_get_POTD_with_desc():
+    # Assuming the function returns a dictionary with the POTD and Wikipedia data
+    data = get_POTD_with_desc()
+    assert isinstance(data, dict)
+    assert "POTD" in data
+    assert "Query" in data
+    assert "WIKI_DATA" in data
+
+def test_get_past_POTD_with_desc():
+    # Assuming the function returns a dictionary with the POTD and Wikipedia data
+    data = get_past_POTD_with_desc("2024-04-22")
+    assert isinstance(data, dict)
+    assert "POTD" in data
+    assert "Query" in data
+    assert "WIKI_DATA" in data
 
