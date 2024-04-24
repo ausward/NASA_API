@@ -16,4 +16,4 @@ jobs:
       - name: Move into team2_proj dir & install dependencies & run test
         env: 
             NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
-        run: echo ${{ secrets.NASA_API_KEY }} && cd ./team2_proj && poetry install && poetry run pytest
+        run: echo ${{ secrets.NASA_API_KEY }} && cd ./team2_proj && poetry install && poetry run pytest --cov

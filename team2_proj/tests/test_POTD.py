@@ -98,3 +98,9 @@ def test_get_past_POTD_with_desc():
     assert "Query" in data
     assert "WIKI_DATA" in data
 
+
+def test_get_POTD_without_desc():
+    data = get_POTD_without_desc()
+    assert isinstance(data, dict)
+    assert "POTD" in data
+    assert "Query" in data
