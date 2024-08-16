@@ -24,10 +24,5 @@ That should in theory launch our app.
 
 # Using our App
 
-Accessible at http://54.188.29.50 with the following endpoints:
-```
-http://54.188.29.50 
-http://54.188.29.50/POTD
-http://54.188.29.50/pastPOTD/YYYY-MM-DD
-```
+download, create docker image and run in docker
 
